@@ -1,44 +1,25 @@
-import 'package:bloc_counter_app/cubit/counter_cubit.dart';
+import 'package:bloc_counter_app/domain/cubit/counter_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: BlocProvider<CounterCubit>(
-          create: (context) => CounterCubit(),
-          child: MyHomePage(title: 'Flutter Demo Home Page')),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class SecondScreen extends StatefulWidget {
+  SecondScreen({Key key, this.title, this.color}) : super(key: key);
 
   final String title;
+  final Color color;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _SecondScreenState createState() => _SecondScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: widget.color,
       ),
       body: Center(
         child: Column(
@@ -68,6 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
+                  backgroundColor: widget.color,
+                  heroTag: "secondDecrement",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrement();
                     print("decrement");
@@ -76,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Icon(CupertinoIcons.minus),
                 ),
                 FloatingActionButton(
+                  backgroundColor: widget.color,
+                  heroTag: "secondIncrement",
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
@@ -84,6 +69,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+            SizedBox(height: 24),
+            RaisedButton(
+              child: Text("Go to Third Screen"),
+              onPressed: () => Navigator.pushNamed(context, '/third'),
+              color: Colors.greenAccent,
+            )
           ],
         ),
       ),
